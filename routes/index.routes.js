@@ -72,7 +72,7 @@ router.get("/download", (req, res) => {
   const jsonData = data
 
   const csvFields = ["Name", "Value", "Url"];
-  const csvParser = new CsvParser({ csvFields });
+  const csvParser = new CsvParser({ csvFields , delimiter:";"});
   const csvData = csvParser.parse(jsonData);
 
   res.setHeader("Content-Type", "text/csv");
