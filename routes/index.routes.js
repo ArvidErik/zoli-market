@@ -69,7 +69,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/download", (req, res) => {
-  const jsonData = data
+  let jsonData = data
+
+  jsonData = clearData(jsonData)
 
   const csvFields = ["Name", "Value", "Url"];
   const csvParser = new CsvParser({ csvFields , delimiter:";"});
@@ -80,5 +82,26 @@ router.get("/download", (req, res) => {
 
   res.status(200).end(csvData);
  });
+
+ function clearData(data){
+
+    let arr = []
+    data.forEach(element => {
+      if (element.value.includes(".")){
+
+        const newEl = {
+          name:element.name,
+          value: element.value.replace(".", ","),
+          url: element.url
+        }
+
+        arr.push(newEl)
+      } else {
+        arr.push(element) 
+      }
+  });
+  console.log("uj", arr);
+  return arr
+ }
 
 module.exports = router;
